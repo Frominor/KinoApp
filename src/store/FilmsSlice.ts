@@ -22,7 +22,7 @@ export const GetNowPlayingFilms = createAsyncThunk(
 );
 export const SearchFilmsByName = createAsyncThunk(
   "Films/SearcheByName",
-  async (Name) => {
+  async (Name: string) => {
     const res = await axios.get(
       `https://api.themoviedb.org/3/search/movie?query=${Name}&api_key=${process.env.REACT_APP_API_FILMS_KEY}&include_adult=false&language=ru-Rus&page=1`
     );
@@ -38,16 +38,26 @@ export const FindTopRatedTv = createAsyncThunk(
     return res.data;
   }
 );
-
+interface IFilm {
+  adult: boolean;
+  backdrop_path: string;
+  id: number;
+  media_type: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  title: string;
+  key?: number;
+}
 interface IState {
-  Films: any[];
-  TopDayFilms: { key?: number }[];
+  Films: IFilm[];
+  TopDayFilms: IFilm[];
   Serials: {}[];
-  NowPlayingFilms: { onTop: boolean }[];
+  NowPlayingFilms: IFilm[];
   YouTubeS: { key: number }[];
   isLoading: boolean;
   Error: string;
-  SearchedFilms: {}[];
+  SearchedFilms: IFilm[];
 }
 const initialState: IState = {
   Films: [],

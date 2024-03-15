@@ -3,7 +3,8 @@ import "./Main.css";
 import { Slider } from "../Slider/Slider";
 import { MoviesList } from "../MoviesList/MoviesList";
 import { useTypedSelector } from "../../store";
-export const Main: React.FC = React.memo(() => {
+
+export const Main: React.FC = React.memo(({}) => {
   const State = useTypedSelector((state) => state.Films);
   return (
     <main>

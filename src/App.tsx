@@ -12,7 +12,6 @@ import {
 import { Footer } from "./components/Footer/Footer";
 
 function App() {
-  console.log(process.env.REACT_APP_API_FILMS_KEY);
   const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(GetPopularFilms());

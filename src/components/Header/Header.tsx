@@ -2,6 +2,7 @@ import React from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { ReactComponent as Lupa } from "../../imgs/loupe-search-svgrepo-com.svg";
 import "./Header.css";
+//@ts-ignore
 import { debounce } from "lodash-es";
 import axios from "axios";
 import { useAppDispatch, useTypedSelector } from "../../store";
@@ -10,31 +11,34 @@ import {
   getKeyForTopDayFilms,
 } from "../../store/FilmsSlice";
 import { FindedFilmsAndSerials } from "../FindedFilmsAndSerials/FindedFilmsAndSerials";
-export const Header = React.memo(() => {
+export const Header: React.FC = React.memo(({}) => {
   const dispacth = useAppDispatch();
   const State = useTypedSelector((state) => state.Films);
+  const [IsOpenFindedFilmBox, SetIsOpenFindedFilmBox] =
+    React.useState<boolean>(false);
   const [Active, SetActive] = React.useState(window.location.pathname);
-  const [Value, SetValue] = React.useState("");
-  const [IsOpenFindedFilmBox, SetIsOpenFindedFilmBox] = React.useState(false);
-  const Ref = React.useRef(null);
+  const [Value, SetValue] = React.useState<string>("");
+  const Ref = React.useRef<HTMLInputElement>(null);
   const FindFilmByName = React.useCallback(
-    debounce((e) => {
+    debounce((e: React.ChangeEvent<HTMLInputElement>) => {
       dispacth(SearchFilmsByName(e.target.value));
     }, 300),
     []
   );
   React.useEffect(() => {
-    function handleEscapeKey(event) {
+    function handleEscapeKey(event: any) {
       if (event.code === "Escape") {
-        Ref.current.blur();
-        SetIsOpenFindedFilmBox(false);
+        if (Ref.current !== null) {
+          Ref.current.blur();
+          SetIsOpenFindedFilmBox(false);
+        }
       }
     }
     document.onkeydown = handleEscapeKey;
   }, []);
   React.useEffect(() => {
     if (State.Films.length > 0) {
-      let arr = [];
+      const arr: any[] = [];
       Promise.all([
         axios.get(
           `https://api.themoviedb.org/3/movie/${State.TopDayFilms[0].id}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
@@ -56,6 +60,7 @@ export const Header = React.memo(() => {
             }
           }
         }
+
         dispacth(getKeyForTopDayFilms(arr));
       });
     }

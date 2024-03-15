@@ -131,7 +131,7 @@ export const Slider: React.FC<SliderProps> = ({
                   className="SwiperSlide"
                   style={{
                     color: "white",
-                    cursor: "pointer",
+
                     position: "relative",
                     display: "flex",
                     justifyContent: "start",
@@ -155,6 +155,7 @@ export const Slider: React.FC<SliderProps> = ({
                   >
                     <img
                       loading="lazy"
+                      style={{ cursor: "pointer" }}
                       src={`https://image.tmdb.org/t/p/w1280/${item.poster_path}`}
                       className="ImgForMovList"
                     ></img>
