@@ -1,0 +1,33 @@
+.FindedFilmsAndSerials {
+  width: 100%;
+  position: absolute;
+  bottom: 4;
+  background-color: #282841;
+  max-height: 500px;
+  z-index: 2;
+  left: 0;
+}
+
+.SearchedItemTitle {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  color: white;
+}
+.MoviesBoxItem {
+  display: flex;
+  column-gap: 10px;
+  align-items: start;
+  justify-content: start;
+  padding: 15px;
+}
+.FindedMovieImg {
+  height: 100px;
+}
+.SearchedItemOverview {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  color: white;
+}
+.SearcheItemTitleAndOverviewBox {
+  white-space: wrap;
+}

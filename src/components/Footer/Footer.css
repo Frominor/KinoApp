@@ -1,0 +1,13 @@
+.Footer {
+  padding: 60px 15px 15px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1c1b29;
+}
+.AllRightCreator {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+  color: white;
+}

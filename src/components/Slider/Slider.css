@@ -1,0 +1,68 @@
+.WatchTrailerBtn {
+  display: flex;
+  background: #403f72;
+  color: white;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10%;
+  column-gap: 10px;
+}
+.WatchTrailerBtn:hover {
+  background-color: #29294a;
+}
+
+.WatchTrailerAndDescription > p {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-weight: 400;
+
+  letter-spacing: normal;
+}
+.WatchTrailerAndDescription {
+  position: absolute;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  row-gap: 10px;
+  top: 30%;
+  width: 500px;
+  left: 4%;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: white;
+  border: 1px solid white;
+  --swiper-navigation-size: 20px;
+  --swiper-navigation-top-offset: 50%;
+  border-radius: 50%;
+  padding: 11px;
+  --swiper-navigation-sides-offset: 70px;
+  --swiper-navigation-color: black;
+}
+.swiper-button-prev {
+  --swiper-navigation-sides-offset: 20px;
+}
+.swiper-button-next::after {
+  margin-left: 2px;
+}
+.Slider {
+  position: relative;
+}
+.MovieTitle {
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: white;
+  font-weight: 400;
+  padding: 10px 10px 10px 0px;
+
+  width: 100%;
+}
+.ImgForMovList {
+  height: 300px;
+}
+.ImgForMovList:hover {
+  filter: brightness(60%);
+}
