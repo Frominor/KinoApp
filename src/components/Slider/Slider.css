@@ -66,3 +66,7 @@
 .ImgForMovList:hover {
   filter: brightness(60%);
 }
+.Play {
+  top: 40%;
+  left: 35%;
+}

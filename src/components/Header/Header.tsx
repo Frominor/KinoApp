@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { ReactComponent as Lupa } from "../../imgs/loupe-search-svgrepo-com.svg";
-import "./Header.css";
+
 //@ts-ignore
 import { debounce } from "lodash-es";
 import axios from "axios";
@@ -11,7 +11,8 @@ import {
   getKeyForTopDayFilms,
 } from "../../store/FilmsSlice";
 import { FindedFilmsAndSerials } from "../FindedFilmsAndSerials/FindedFilmsAndSerials";
-export const Header: React.FC = React.memo(({}) => {
+import "./Header.css";
+export const Header: React.FC = ({}) => {
   const dispacth = useAppDispatch();
   const State = useTypedSelector((state) => state.Films);
   const [IsOpenFindedFilmBox, SetIsOpenFindedFilmBox] =
@@ -19,12 +20,25 @@ export const Header: React.FC = React.memo(({}) => {
   const [Active, SetActive] = React.useState(window.location.pathname);
   const [Value, SetValue] = React.useState<string>("");
   const Ref = React.useRef<HTMLInputElement>(null);
+  const menuref = React.useRef<HTMLDivElement>(null);
   const FindFilmByName = React.useCallback(
     debounce((e: React.ChangeEvent<HTMLInputElement>) => {
       dispacth(SearchFilmsByName(e.target.value));
     }, 300),
     []
   );
+  React.useEffect(() => {
+    let handler = (e: any) => {
+      const target = e.target as Element;
+      if (!menuref.current?.contains(target)) {
+        SetIsOpenFindedFilmBox(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
   React.useEffect(() => {
     function handleEscapeKey(event: any) {
       if (event.code === "Escape") {
@@ -105,7 +119,7 @@ export const Header: React.FC = React.memo(({}) => {
               </Link>
             </h1>
           </div>
-          <div className="SearchFilm">
+          <div className="SearchFilm" ref={menuref}>
             <div className="InputBox">
               <input
                 ref={Ref}
@@ -134,4 +148,4 @@ export const Header: React.FC = React.memo(({}) => {
       </div>
     </header>
   );
-});
+};

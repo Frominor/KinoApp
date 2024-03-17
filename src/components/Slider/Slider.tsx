@@ -8,12 +8,14 @@ import "swiper/css/navigation";
 import "./Slider.css";
 import { useAppDispatch, useTypedSelector } from "../../store";
 import { ModalWindow } from "../ModalWindow/ModalWindow";
+import { IFilm } from "../../interfaces/IFilm";
+import { NavLink } from "react-router-dom";
 
 interface SliderProps {
   SlPerW: number;
   spaceB: number;
   isTopDFilmSilder: boolean;
-  RenderCategory: {}[];
+  RenderCategory: IFilm[];
 }
 export const Slider: React.FC<SliderProps> = ({
   SlPerW,
@@ -25,7 +27,7 @@ export const Slider: React.FC<SliderProps> = ({
   const State = useTypedSelector((state) => state.Films);
   const [ModalWindowOpen, SetModalWindowOpen] = React.useState(false);
   const [OnTheElement, SetOnTheElement] = React.useState(false);
-  const [YouTubeKey, SetKey] = React.useState(0);
+  const [YouTubeKey, SetKey] = React.useState<any>(0);
   const [Id, SetID] = React.useState(0);
   function CheckOpacity(item: any): number {
     if (OnTheElement) {
@@ -51,10 +53,11 @@ export const Slider: React.FC<SliderProps> = ({
             ModalWindowOpen={ModalWindowOpen}
             SetModalWindowOpen={SetModalWindowOpen}
           ></ModalWindow>
-          {RenderCategory.map((item: any, index: number) => {
+          {RenderCategory.map((item: IFilm, index: number) => {
             return (
               <>
                 <SwiperSlide
+                  key={index}
                   className="SwiperSlide"
                   style={{
                     color: "white",
@@ -100,7 +103,8 @@ export const Slider: React.FC<SliderProps> = ({
                       className="WatchTrailerBtn"
                       onClick={() => {
                         SetModalWindowOpen(true);
-                        SetKey(State.YouTubeS[index].key);
+
+                        SetKey(State?.YouTubeS[index]?.key);
                       }}
                     >
                       <Play className="Play"></Play>Watch trailer
@@ -124,35 +128,37 @@ export const Slider: React.FC<SliderProps> = ({
           navigation
           onSlideChange={() => console.log("slide change")}
         >
-          {RenderCategory.map((item: any, index: number) => {
+          {RenderCategory.map((item: IFilm, index: number) => {
             return (
-              <>
-                <SwiperSlide
-                  className="SwiperSlide"
-                  style={{
-                    color: "white",
+              <SwiperSlide
+                onClick={() => {}}
+                key={index}
+                className="SwiperSlide"
+                style={{
+                  color: "white",
 
-                    position: "relative",
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "start",
+                }}
+              >
+                <div
+                  onMouseEnter={() => {
+                    SetID(item.id);
+                    SetOnTheElement(true);
+                  }}
+                  onMouseLeave={() => {
+                    SetOnTheElement(false);
+                  }}
+                  className="FilmBox"
+                  style={{
                     display: "flex",
-                    justifyContent: "start",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
                   }}
                 >
-                  <div
-                    onMouseEnter={() => {
-                      SetID(item.id);
-                      SetOnTheElement(true);
-                    }}
-                    onMouseLeave={() => {
-                      SetOnTheElement(false);
-                    }}
-                    className="FilmBox"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
+                  <NavLink to={`/films/:${item.id}`}>
                     <img
                       loading="lazy"
                       style={{ cursor: "pointer" }}
@@ -169,10 +175,10 @@ export const Slider: React.FC<SliderProps> = ({
                         opacity: CheckOpacity(item),
                       }}
                     ></Naaa>
-                    <p className="MovieTitle">{item.title}</p>
-                  </div>
-                </SwiperSlide>
-              </>
+                  </NavLink>
+                  <p className="MovieTitle">{item.title}</p>
+                </div>
+              </SwiperSlide>
             );
           })}
         </Swiper>

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-
 import axios from "axios";
+import { IFilm, IState } from "../interfaces/IFilm";
 //ts-ignore
 export const GetPopularFilms = createAsyncThunk(
   "Films/GetPopularFilms",
@@ -38,27 +38,16 @@ export const FindTopRatedTv = createAsyncThunk(
     return res.data;
   }
 );
-interface IFilm {
-  adult: boolean;
-  backdrop_path: string;
-  id: number;
-  media_type: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  title: string;
-  key?: number;
-}
-interface IState {
-  Films: IFilm[];
-  TopDayFilms: IFilm[];
-  Serials: {}[];
-  NowPlayingFilms: IFilm[];
-  YouTubeS: { key: number }[];
-  isLoading: boolean;
-  Error: string;
-  SearchedFilms: IFilm[];
-}
+export const GetFullInfoIn = createAsyncThunk(
+  "Person/GetFullInfo",
+  async () => {
+    const res = await Promise.all([
+      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`,
+      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`,
+      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`,
+    ]);
+  }
+);
 const initialState: IState = {
   Films: [],
   TopDayFilms: [],
@@ -73,7 +62,7 @@ const GetFilmsSlice = createSlice({
   name: "Films",
   initialState,
   reducers: {
-    getKeyForTopDayFilms(state: IState, action) {
+    getKeyForTopDayFilms(state: IState, action: PayloadAction<IFilm[]>) {
       state.YouTubeS = action.payload;
       for (let i = 0; i < action.payload.length; i++) {
         state.TopDayFilms[i].key = action.payload[i].key;
@@ -110,7 +99,6 @@ const GetFilmsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(SearchFilmsByName.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.SearchedFilms = action.payload.results;
       })
       .addCase(SearchFilmsByName.rejected, (state) => {

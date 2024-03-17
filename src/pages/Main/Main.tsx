@@ -1,11 +1,12 @@
 import React from "react";
-import "./Main.css";
-import { Slider } from "../Slider/Slider";
-import { MoviesList } from "../MoviesList/MoviesList";
 import { useTypedSelector } from "../../store";
+import { Slider } from "../../components/Slider/Slider";
+import { MoviesList } from "../../components/MoviesList/MoviesList";
+import "./Main.css";
 
 export const Main: React.FC = React.memo(({}) => {
   const State = useTypedSelector((state) => state.Films);
+  console.log(State);
   return (
     <main>
       <div className="container">
