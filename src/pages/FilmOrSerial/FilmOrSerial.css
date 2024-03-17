@@ -10,28 +10,88 @@
 .ImageAndOverview_Image {
   width: 30%;
   height: 400px;
-  padding-left: 30px;
 }
-
+.Ganre {
+  background: #433f73;
+  font-family: "Roboto", sans-serif;
+  display: inline-block;
+  padding: 10px;
+  font-size: 17px;
+  border-radius: 20px;
+  color: white;
+}
 .ImageAndOverview {
-  position: relative;
   display: flex;
 
-  top: -160px;
   column-gap: 20px;
 }
 .TitleAndOverview {
-  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  row-gap: 15px;
+  padding-top: 9%;
 }
-.TitleAndOverview > h3 {
+.NameOfTheMovie {
   font-family: "Roboto", sans-serif;
-  padding-bottom: 20px;
+
   font-size: 24px;
   color: white;
 }
-.TitleAndOverview > p {
+.OverviewOfTheMovie {
   font-family: "Roboto", sans-serif;
   font-size: 18px;
   width: 90%;
   color: white;
+}
+
+.Cast_Back {
+  width: 200px;
+  height: 300px;
+  background-color: #332f55;
+}
+.CastsBox {
+  display: flex;
+  column-gap: 30px;
+  overflow-x: scroll;
+}
+.CastsBox::-webkit-scrollbar {
+  background-color: #323056;
+}
+.CastsBox::-webkit-scrollbar-thumb {
+  width: 7px;
+  background-color: #323056;
+}
+.CastsBox::-webkit-scrollbar-track {
+  background-color: #1e1e31;
+}
+.Category {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  color: white;
+  padding: 10px;
+}
+.Cast_Name {
+  padding-top: 10px;
+}
+.Cast_Name > p {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  padding: 2px;
+  color: white;
+}
+.SeasonImg {
+  width: 208px;
+  height: 301px;
+}
+.SeasonName {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+}
+.OtherContentBox {
+  position: relative;
+  top: -160px;
 }

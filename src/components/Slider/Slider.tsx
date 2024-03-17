@@ -10,6 +10,7 @@ import { useAppDispatch, useTypedSelector } from "../../store";
 import { ModalWindow } from "../ModalWindow/ModalWindow";
 import { IFilm } from "../../interfaces/IFilm";
 import { NavLink } from "react-router-dom";
+import { GetFullInfoIn, GetTheActors } from "../../store/FilmsSlice";
 
 interface SliderProps {
   SlPerW: number;
@@ -128,10 +129,13 @@ export const Slider: React.FC<SliderProps> = ({
           navigation
           onSlideChange={() => console.log("slide change")}
         >
-          {RenderCategory.map((item: IFilm, index: number) => {
+          {RenderCategory.map((item: IFilm, index) => {
             return (
               <SwiperSlide
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(GetFullInfoIn(item.id));
+                  dispatch(GetTheActors(item.id));
+                }}
                 key={index}
                 className="SwiperSlide"
                 style={{

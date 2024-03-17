@@ -13,7 +13,16 @@ export interface IFilm {
 export interface IState {
   Films: IFilm[];
   TopDayFilms: IFilm[];
-  FindedFilmOrSerial: any[];
+  FindedFilmOrSerial: {
+    seasons: any[];
+    original_name: string;
+    name: string;
+    overview: string;
+    poster_path: string;
+    homepage: string;
+    genres: { id: number; name: string }[];
+    backdrop_path: string[];
+  }[];
   Serials: {}[];
   NowPlayingFilms: IFilm[];
   YouTubeS: IFilm[];
@@ -24,6 +33,7 @@ export interface IState {
     popularity: number;
     character: string;
     profile_path: string;
+    original_name: string;
   }[];
   Error: string;
   SearchedFilms: IFilm[];

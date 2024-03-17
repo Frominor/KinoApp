@@ -19,7 +19,6 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
       <div className="MoviesBox">
         {SearchedFilms &&
           SearchedFilms.map((item: any) => {
-            console.log(item.overview.length);
             return (
               <div className="MoviesBoxItem">
                 <img
