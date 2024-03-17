@@ -40,14 +40,23 @@ export const FindTopRatedTv = createAsyncThunk(
 );
 export const GetFullInfoIn = createAsyncThunk(
   "Person/GetFullInfo",
-  async () => {
-    const res = await Promise.all([
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`,
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`,
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`,
-    ]);
+  async (MovieId: number) => {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/tv/${MovieId}?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus`
+    );
+    return await res.data;
   }
 );
+export const GetTheActors = createAsyncThunk(
+  "Person/GetActors",
+  async (MovieId: number) => {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/tv/${MovieId}/credits?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus`
+    );
+    return await res.data;
+  }
+);
+
 const initialState: IState = {
   Films: [],
   TopDayFilms: [],
@@ -55,7 +64,9 @@ const initialState: IState = {
   NowPlayingFilms: [],
   YouTubeS: [],
   isLoading: false,
+  FindedFilmOrSerial: [],
   Error: "",
+  Casts: [],
   SearchedFilms: [],
 };
 const GetFilmsSlice = createSlice({
@@ -85,30 +96,53 @@ const GetFilmsSlice = createSlice({
       })
       .addCase(GetPopularFilms.rejected, (state, action) => {
         state.Error = "Ошибка при загрузке фильмов";
+        state.isLoading = false;
       })
       .addCase(GetNowPlayingFilms.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(GetNowPlayingFilms.fulfilled, (state, action) => {
         state.NowPlayingFilms = action.payload.results;
+        state.isLoading = false;
       })
       .addCase(GetNowPlayingFilms.rejected, (state, action) => {
         state.Error = "Ошибка при загрузке фильмов";
+        state.isLoading = false;
       })
       .addCase(SearchFilmsByName.pending, (state, action) => {
         state.isLoading = true;
       })
       .addCase(SearchFilmsByName.fulfilled, (state, action) => {
         state.SearchedFilms = action.payload.results;
+        state.isLoading = false;
       })
       .addCase(SearchFilmsByName.rejected, (state) => {
         state.Error = "Ошибка";
+        state.isLoading = false;
       })
       .addCase(FindTopRatedTv.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(FindTopRatedTv.fulfilled, (state, action) => {
         state.Serials = action.payload.results;
+        state.isLoading = false;
+      })
+      .addCase(GetFullInfoIn.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(GetFullInfoIn.fulfilled, (state, action) => {
+        state.FindedFilmOrSerial = [action.payload];
+      })
+      .addCase(GetFullInfoIn.rejected, (state) => {
+        state.Error = "Ошибка";
+        state.isLoading = false;
+      })
+      .addCase(GetTheActors.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetTheActors.fulfilled, (state, action) => {
+        state.Casts = action.payload.cast;
       });
   },
 });
