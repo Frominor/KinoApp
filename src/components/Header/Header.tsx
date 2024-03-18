@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ReactComponent as Lupa } from "../../imgs/loupe-search-svgrepo-com.svg";
 
 //@ts-ignore
@@ -139,6 +139,8 @@ export const Header: React.FC = ({}) => {
                 <Lupa className="lupa"></Lupa>
               </label>
               <FindedFilmsAndSerials
+                SetValue={SetValue}
+                SetIsOpenFindedFilmBox={SetIsOpenFindedFilmBox}
                 IsOpenFindedFilmBox={IsOpenFindedFilmBox}
                 SearchedFilms={State.SearchedFilms}
               ></FindedFilmsAndSerials>

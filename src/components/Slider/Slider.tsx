@@ -10,7 +10,11 @@ import { useAppDispatch, useTypedSelector } from "../../store";
 import { ModalWindow } from "../ModalWindow/ModalWindow";
 import { IFilm } from "../../interfaces/IFilm";
 import { NavLink } from "react-router-dom";
-import { GetFullInfoIn, GetTheActors } from "../../store/FilmsSlice";
+import {
+  FindRecomendedMovies,
+  GetFullInfoIn,
+  GetTheActors,
+} from "../../store/FilmsSlice";
 
 interface SliderProps {
   SlPerW: number;
@@ -30,7 +34,7 @@ export const Slider: React.FC<SliderProps> = ({
   const [OnTheElement, SetOnTheElement] = React.useState(false);
   const [YouTubeKey, SetKey] = React.useState<any>(0);
   const [Id, SetID] = React.useState(0);
-  function CheckOpacity(item: any): number {
+  function CheckOpacity(item: IFilm): number {
     if (OnTheElement) {
       if (Id == item.id) {
         return 1;
@@ -104,7 +108,6 @@ export const Slider: React.FC<SliderProps> = ({
                       className="WatchTrailerBtn"
                       onClick={() => {
                         SetModalWindowOpen(true);
-
                         SetKey(State?.YouTubeS[index]?.key);
                       }}
                     >
@@ -133,14 +136,34 @@ export const Slider: React.FC<SliderProps> = ({
             return (
               <SwiperSlide
                 onClick={() => {
-                  dispatch(GetFullInfoIn(item.id));
-                  dispatch(GetTheActors(item.id));
+                  window.localStorage.removeItem("movieinfo");
+                  window.localStorage.removeItem("media_type");
+                  window.localStorage.setItem("media_type", item.media_type);
+                  window.localStorage.setItem("movieinfo", `${item.id}`);
+                  dispatch(
+                    FindRecomendedMovies({
+                      MovieId: item.id,
+                      MediaType: item.media_type,
+                    })
+                  );
+                  dispatch(
+                    GetFullInfoIn({
+                      MovieId: item.id,
+                      MediaType: item.media_type,
+                    })
+                  );
+                  dispatch(
+                    GetTheActors({
+                      MovieId: item.id,
+                      MediaType: item.media_type,
+                    })
+                  );
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 key={index}
                 className="SwiperSlide"
                 style={{
                   color: "white",
-
                   position: "relative",
                   display: "flex",
                   justifyContent: "start",

@@ -23,7 +23,8 @@ export interface IState {
     genres: { id: number; name: string }[];
     backdrop_path: string[];
   }[];
-  Serials: {}[];
+  Serials: IFilm[];
+  RecomendedMovies: { results: IFilm[] }[];
   NowPlayingFilms: IFilm[];
   YouTubeS: IFilm[];
   isLoading: boolean;

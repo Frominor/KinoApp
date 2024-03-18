@@ -1,12 +1,18 @@
 import React from "react";
 import "./FindedFilmsAndSerials.css";
+import { Link, NavLink } from "react-router-dom";
+
 type FindedFilmsAndSerialsProps = {
   SearchedFilms: {}[];
   IsOpenFindedFilmBox: boolean;
+  SetIsOpenFindedFilmBox: (arg: boolean) => void;
+  SetValue: (arg: string) => void;
 };
 export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
   SearchedFilms,
   IsOpenFindedFilmBox,
+  SetIsOpenFindedFilmBox,
+  SetValue,
 }) => {
   return (
     <div
@@ -18,9 +24,20 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
     >
       <div className="MoviesBox">
         {SearchedFilms &&
-          SearchedFilms.map((item: any) => {
+          SearchedFilms.map((item: any, index: number) => {
             return (
-              <div className="MoviesBoxItem">
+              <NavLink
+                onClick={() => {
+                  window.localStorage.removeItem("movieinfo");
+                  window.localStorage.removeItem("media_type");
+                  window.localStorage.setItem("media_type", item.media_type);
+                  window.localStorage.setItem("movieinfo", `${item.id}`);
+                  SetIsOpenFindedFilmBox(false);
+                  SetValue("");
+                }}
+                to={`/films/:${item.id}`}
+                className="MoviesBoxItem"
+              >
                 <img
                   className="FindedMovieImg"
                   src={`https://image.tmdb.org/t/p/w200/${item.poster_path}`}
@@ -33,7 +50,7 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
                       : item.overview}
                   </p>
                 </div>
-              </div>
+              </NavLink>
             );
           })}
       </div>

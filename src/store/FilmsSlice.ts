@@ -40,18 +40,29 @@ export const FindTopRatedTv = createAsyncThunk(
 );
 export const GetFullInfoIn = createAsyncThunk(
   "Person/GetFullInfo",
-  async (MovieId: number) => {
+  async (MovieInfo: { MediaType: string; MovieId: number }) => {
+    console.log();
     const res = await axios.get(
-      `https://api.themoviedb.org/3/tv/${MovieId}?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus`
+      `https://api.themoviedb.org/3/${MovieInfo.MediaType}/${MovieInfo.MovieId}?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus`
     );
     return await res.data;
   }
 );
 export const GetTheActors = createAsyncThunk(
   "Person/GetActors",
-  async (MovieId: number) => {
+  async (MovieInfo: { MediaType: string; MovieId: number }) => {
     const res = await axios.get(
-      `https://api.themoviedb.org/3/tv/${MovieId}/credits?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus`
+      `https://api.themoviedb.org/3/${MovieInfo.MediaType}/${MovieInfo.MovieId}/credits?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus`
+    );
+    return await res.data;
+  }
+);
+
+export const FindRecomendedMovies = createAsyncThunk(
+  "Movie/FindRecomended",
+  async (MovieInfo: { MediaType: string; MovieId: number }) => {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/${MovieInfo.MediaType}/${MovieInfo.MovieId}/recommendations?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
     );
     return await res.data;
   }
@@ -67,6 +78,7 @@ const initialState: IState = {
   FindedFilmOrSerial: [],
   Error: "",
   Casts: [],
+  RecomendedMovies: [],
   SearchedFilms: [],
 };
 const GetFilmsSlice = createSlice({
@@ -87,6 +99,9 @@ const GetFilmsSlice = createSlice({
       })
       .addCase(GetPopularFilms.fulfilled, (state, action) => {
         state.Films = action.payload.results;
+        for (let k of state.Films) {
+          k.media_type = "movie";
+        }
         state.TopDayFilms = [
           state.Films[0],
           state.Films[1],
@@ -103,6 +118,9 @@ const GetFilmsSlice = createSlice({
       })
       .addCase(GetNowPlayingFilms.fulfilled, (state, action) => {
         state.NowPlayingFilms = action.payload.results;
+        for (let k of state.NowPlayingFilms) {
+          k.media_type = "movie";
+        }
         state.isLoading = false;
       })
       .addCase(GetNowPlayingFilms.rejected, (state, action) => {
@@ -115,6 +133,9 @@ const GetFilmsSlice = createSlice({
       .addCase(SearchFilmsByName.fulfilled, (state, action) => {
         state.SearchedFilms = action.payload.results;
         state.isLoading = false;
+        for (let k of state.SearchedFilms) {
+          k.media_type = "movie";
+        }
       })
       .addCase(SearchFilmsByName.rejected, (state) => {
         state.Error = "Ошибка";
@@ -125,6 +146,9 @@ const GetFilmsSlice = createSlice({
       })
       .addCase(FindTopRatedTv.fulfilled, (state, action) => {
         state.Serials = action.payload.results;
+        for (let k of state.Serials) {
+          k.media_type = "tv";
+        }
         state.isLoading = false;
       })
       .addCase(GetFullInfoIn.pending, (state) => {
@@ -143,7 +167,19 @@ const GetFilmsSlice = createSlice({
       })
       .addCase(GetTheActors.fulfilled, (state, action) => {
         state.Casts = action.payload.cast;
-      });
+        state.isLoading = false;
+      })
+      .addCase(FindRecomendedMovies.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        FindRecomendedMovies.fulfilled,
+        (state, action: PayloadAction<{ results: any[] }>) => {
+          console.log(123);
+          state.isLoading = false;
+          state.RecomendedMovies = action.payload.results;
+        }
+      );
   },
 });
 export const GetFilmsSliceReducer = GetFilmsSlice.reducer;

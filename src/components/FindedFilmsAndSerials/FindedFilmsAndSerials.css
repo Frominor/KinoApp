@@ -7,7 +7,11 @@
   z-index: 2;
   left: 0;
 }
-
+.MoviesBox {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
 .SearchedItemTitle {
   font-family: "Roboto", sans-serif;
   font-size: 18px;
@@ -17,6 +21,7 @@
   display: flex;
   column-gap: 10px;
   align-items: start;
+  cursor: pointer;
   justify-content: start;
   padding: 15px;
 }
