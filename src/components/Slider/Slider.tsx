@@ -30,10 +30,10 @@ export const Slider: React.FC<SliderProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const State = useTypedSelector((state) => state.Films);
-  const [ModalWindowOpen, SetModalWindowOpen] = React.useState(false);
-  const [OnTheElement, SetOnTheElement] = React.useState(false);
-  const [YouTubeKey, SetKey] = React.useState<any>(0);
-  const [Id, SetID] = React.useState(0);
+  const [ModalWindowOpen, SetModalWindowOpen] = React.useState<boolean>(false);
+  const [OnTheElement, SetOnTheElement] = React.useState<boolean>(false);
+  const [YouTubeKey, SetKey] = React.useState<number>(0);
+  const [Id, SetID] = React.useState<number>(0);
   function CheckOpacity(item: IFilm): number {
     if (OnTheElement) {
       if (Id == item.id) {
@@ -108,7 +108,10 @@ export const Slider: React.FC<SliderProps> = ({
                       className="WatchTrailerBtn"
                       onClick={() => {
                         SetModalWindowOpen(true);
-                        SetKey(State?.YouTubeS[index]?.key);
+                        const youtybekey = State?.YouTubeS[index]?.key;
+                        if (youtybekey) {
+                          SetKey(youtybekey);
+                        }
                       }}
                     >
                       <Play className="Play"></Play>Watch trailer
@@ -140,6 +143,7 @@ export const Slider: React.FC<SliderProps> = ({
                   window.localStorage.removeItem("media_type");
                   window.localStorage.setItem("media_type", item.media_type);
                   window.localStorage.setItem("movieinfo", `${item.id}`);
+                  SetModalWindowOpen(false);
                   dispatch(
                     FindRecomendedMovies({
                       MovieId: item.id,

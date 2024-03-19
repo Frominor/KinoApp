@@ -1,25 +1,28 @@
 import React from "react";
-import { useTypedSelector } from "../../store";
+import { useAppDispatch, useTypedSelector } from "../../store";
 import "./FilmOrSerial.css";
-
 import { MoviesList } from "../../components/MoviesList/MoviesList";
+import { CastItem } from "./CastItem/CastItem";
 
 export const FilmOrSerial = () => {
   const State = useTypedSelector((state) => state.Films);
+  console.log(State);
+  const dispatch = useAppDispatch();
+
   return (
     <div className="FilmOrSerial">
       <div className="container">
         <div className="BackdropImageBox">
           <img
             className="BackdropImage"
-            src={`https://image.tmdb.org/t/p/w500/${State.FindedFilmOrSerial[0]?.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original/${State.FindedFilmOrSerial[0]?.backdrop_path}`}
           ></img>
         </div>
         <div className="OtherContentBox">
           <div className="ImageAndOverview">
             <img
               className="ImageAndOverview_Image"
-              src={`https://image.tmdb.org/t/p/w400/${State.FindedFilmOrSerial[0]?.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w500/${State.FindedFilmOrSerial[0]?.poster_path}`}
             ></img>
             <div className="TitleAndOverview">
               <h3 className="NameOfTheMovie">
@@ -44,32 +47,26 @@ export const FilmOrSerial = () => {
             <div
               className="CastsBox"
               style={{
-                overflowX: State.Casts.length <= 5 ? "hidden" : "scroll",
+                overflowX: State.Casts.length <= 4 ? "hidden" : "scroll",
               }}
             >
               {State.Casts.length > 0
                 ? State.Casts.map(
-                    (item: {
-                      character: string;
-                      original_name: string;
-                      profile_path: string;
-                    }) => {
+                    (
+                      item: {
+                        character: string;
+                        original_name: string;
+                        profile_path: string;
+                      },
+                      index
+                    ) => {
                       return (
-                        <div className="CastItem">
-                          <img
-                            loading="lazy"
-                            className="CastImg"
-                            style={{
-                              borderRadius: 20 + "px",
-                              minWidth: 300 + "px",
-                            }}
-                            src={`https://image.tmdb.org/t/p/w500/${item.profile_path}`}
-                          />
-                          <div className="Cast_Name">
-                            <p>{item.character}</p>
-                            <p>{item.original_name}</p>
-                          </div>
-                        </div>
+                        <CastItem
+                          character={item.character}
+                          original_name={item.original_name}
+                          profile_path={item.profile_path}
+                          key={index}
+                        ></CastItem>
                       );
                     }
                   )

@@ -1,6 +1,9 @@
 import React from "react";
 import "./FindedFilmsAndSerials.css";
-import { Link, NavLink } from "react-router-dom";
+import { useAppDispatch } from "../../store";
+import { SearchFilmsByName } from "../../store/FilmsSlice";
+import { GetInfoAndFindRecomendedMovies } from "../../utils/GetInfoAndFindRecomendedMovies";
+import { FindedFilmsAndSerialsItem } from "./FindedFilmsAndSerials/FindedFilmsAndSerialsItem";
 
 type FindedFilmsAndSerialsProps = {
   SearchedFilms: {}[];
@@ -14,11 +17,13 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
   SetIsOpenFindedFilmBox,
   SetValue,
 }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <div
       className="FindedFilmsAndSerials"
       style={{
-        overflowY: SearchedFilms.length >= 5 ? "scroll" : "hidden",
+        overflowY: SearchedFilms.length >= 4 ? "scroll" : "hidden",
         display: IsOpenFindedFilmBox ? "block" : "none",
       }}
     >
@@ -26,31 +31,14 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
         {SearchedFilms &&
           SearchedFilms.map((item: any, index: number) => {
             return (
-              <NavLink
-                onClick={() => {
-                  window.localStorage.removeItem("movieinfo");
-                  window.localStorage.removeItem("media_type");
-                  window.localStorage.setItem("media_type", item.media_type);
-                  window.localStorage.setItem("movieinfo", `${item.id}`);
-                  SetIsOpenFindedFilmBox(false);
-                  SetValue("");
-                }}
-                to={`/films/:${item.id}`}
-                className="MoviesBoxItem"
-              >
-                <img
-                  className="FindedMovieImg"
-                  src={`https://image.tmdb.org/t/p/w200/${item.poster_path}`}
-                ></img>
-                <div className="SearcheItemTitleAndOverviewBox">
-                  <p className="SearchedItemTitle">{item.title}</p>
-                  <p className="SearchedItemOverview">
-                    {item.overview.length > 300
-                      ? item.overview.split(".")[0] + "."
-                      : item.overview}
-                  </p>
-                </div>
-              </NavLink>
+              <FindedFilmsAndSerialsItem
+                GetInfoAndFindRecomendedMovies={GetInfoAndFindRecomendedMovies}
+                SearchFilmsByName={SearchFilmsByName}
+                SetIsOpenFindedFilmBox={SetIsOpenFindedFilmBox}
+                SetValue={SetValue}
+                dispatch={dispatch}
+                item={item}
+              ></FindedFilmsAndSerialsItem>
             );
           })}
       </div>

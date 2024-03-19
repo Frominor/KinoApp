@@ -27,6 +27,7 @@
 }
 .FindedMovieImg {
   height: 100px;
+  max-width: 66px;
 }
 .SearchedItemOverview {
   font-family: "Roboto", sans-serif;
