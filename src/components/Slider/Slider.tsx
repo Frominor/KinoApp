@@ -1,7 +1,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
-import { ReactComponent as Play } from "../../imgs/play-circle-svgrepo-com.svg";
+
 import { ReactComponent as Naaa } from "./play-circle-svgrepo-com.svg";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -10,11 +10,10 @@ import { useAppDispatch, useTypedSelector } from "../../store";
 import { ModalWindow } from "../ModalWindow/ModalWindow";
 import { IFilm } from "../../interfaces/IFilm";
 import { NavLink } from "react-router-dom";
-import {
-  FindRecomendedMovies,
-  GetFullInfoIn,
-  GetTheActors,
-} from "../../store/FilmsSlice";
+
+import { WatchTrailer } from "../WatchTrailer/WatchTrailer";
+import { GetInfoAndFindRecomendedMovies } from "../../utils/GetInfoAndFindRecomendedMovies";
+import { SliderItem } from "./SliderItem/SliderItem";
 
 interface SliderProps {
   SlPerW: number;
@@ -41,6 +40,14 @@ export const Slider: React.FC<SliderProps> = ({
       }
     }
     return 0;
+  }
+  function SetDataToLocalStorage(item: IFilm) {
+    window.localStorage.removeItem("movieinfo");
+    window.localStorage.removeItem("media_type");
+    window.localStorage.setItem("media_type", item.media_type);
+    window.localStorage.setItem("movieinfo", `${item.id}`);
+    SetModalWindowOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
   if (isTopDFilmSilder) {
     return (
@@ -96,27 +103,14 @@ export const Slider: React.FC<SliderProps> = ({
                     ></div>
                   </div>
 
-                  <div className="WatchTrailerAndDescription">
-                    <p className="MovieTitle">{item.title}</p>
-                    <p>
-                      {item.overview.split(".")[0] +
-                        "." +
-                        item.overview.split(".")[1] +
-                        ""}
-                    </p>
-                    <button
-                      className="WatchTrailerBtn"
-                      onClick={() => {
-                        SetModalWindowOpen(true);
-                        const youtybekey = State?.YouTubeS[index]?.key;
-                        if (youtybekey) {
-                          SetKey(youtybekey);
-                        }
-                      }}
-                    >
-                      <Play className="Play"></Play>Watch trailer
-                    </button>
-                  </div>
+                  <WatchTrailer
+                    SetKey={SetKey}
+                    SetModalWindowOpen={SetModalWindowOpen}
+                    index={index}
+                    overview={item.overview}
+                    title={item.title}
+                    key={index}
+                  ></WatchTrailer>
                 </SwiperSlide>
               </>
             );
@@ -137,78 +131,13 @@ export const Slider: React.FC<SliderProps> = ({
         >
           {RenderCategory.map((item: IFilm, index) => {
             return (
-              <SwiperSlide
-                onClick={() => {
-                  window.localStorage.removeItem("movieinfo");
-                  window.localStorage.removeItem("media_type");
-                  window.localStorage.setItem("media_type", item.media_type);
-                  window.localStorage.setItem("movieinfo", `${item.id}`);
-                  SetModalWindowOpen(false);
-                  dispatch(
-                    FindRecomendedMovies({
-                      MovieId: item.id,
-                      MediaType: item.media_type,
-                    })
-                  );
-                  dispatch(
-                    GetFullInfoIn({
-                      MovieId: item.id,
-                      MediaType: item.media_type,
-                    })
-                  );
-                  dispatch(
-                    GetTheActors({
-                      MovieId: item.id,
-                      MediaType: item.media_type,
-                    })
-                  );
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                key={index}
-                className="SwiperSlide"
-                style={{
-                  color: "white",
-                  position: "relative",
-                  display: "flex",
-                  justifyContent: "start",
-                }}
-              >
-                <div
-                  onMouseEnter={() => {
-                    SetID(item.id);
-                    SetOnTheElement(true);
-                  }}
-                  onMouseLeave={() => {
-                    SetOnTheElement(false);
-                  }}
-                  className="FilmBox"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <NavLink to={`/films/:${item.id}`}>
-                    <img
-                      loading="lazy"
-                      style={{ cursor: "pointer" }}
-                      src={`https://image.tmdb.org/t/p/w1280/${item.poster_path}`}
-                      className="ImgForMovList"
-                    ></img>
-                    <Naaa
-                      className="Play"
-                      style={{
-                        pointerEvents: "none",
-                        background: "white",
-                        borderRadius: 50 + "%",
-                        position: "absolute",
-                        opacity: CheckOpacity(item),
-                      }}
-                    ></Naaa>
-                  </NavLink>
-                  <p className="MovieTitle">{item.title}</p>
-                </div>
+              <SwiperSlide>
+                {" "}
+                <SliderItem
+                  SetModalWindowOpen={SetModalWindowOpen}
+                  index={index}
+                  item={item}
+                ></SliderItem>
               </SwiperSlide>
             );
           })}

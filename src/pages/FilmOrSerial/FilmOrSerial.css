@@ -94,3 +94,7 @@
   position: relative;
   top: -160px;
 }
+.Seasons {
+  display: flex;
+  column-gap: 10px;
+}

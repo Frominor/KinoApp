@@ -7,7 +7,7 @@ interface FindedFilmsAndSerialsItemProps {
   SetIsOpenFindedFilmBox: (arg: boolean) => void;
   SetValue: (arg: string) => void;
   dispatch: (arg?: any) => any;
-  SearchFilmsByName: (arg: string) => void;
+  SearchFilmsByName: (arg: any) => void;
   GetInfoAndFindRecomendedMovies: (item: IFilm, dispatch: () => void) => void;
 }
 export const FindedFilmsAndSerialsItem: React.FC<

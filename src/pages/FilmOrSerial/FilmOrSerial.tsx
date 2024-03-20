@@ -3,10 +3,10 @@ import { useAppDispatch, useTypedSelector } from "../../store";
 import "./FilmOrSerial.css";
 import { MoviesList } from "../../components/MoviesList/MoviesList";
 import { CastItem } from "./CastItem/CastItem";
+import { ItemSkeleton } from "../../components/ItemSkeleton/ItemSkeleton";
 
 export const FilmOrSerial = () => {
   const State = useTypedSelector((state) => state.Films);
-  console.log(State);
   const dispatch = useAppDispatch();
 
   return (
@@ -50,73 +50,100 @@ export const FilmOrSerial = () => {
                 overflowX: State.Casts.length <= 4 ? "hidden" : "scroll",
               }}
             >
-              {State.Casts.length > 0
-                ? State.Casts.map(
-                    (
-                      item: {
-                        character: string;
-                        original_name: string;
-                        profile_path: string;
-                      },
-                      index
-                    ) => {
+              {!State.isLoading
+                ? State.Casts.length > 0
+                  ? State.Casts.map(
+                      (
+                        item: {
+                          character: string;
+                          original_name: string;
+                          profile_path: string;
+                        },
+                        index
+                      ) => {
+                        return (
+                          <CastItem
+                            character={item.character}
+                            original_name={item.original_name}
+                            profile_path={item.profile_path}
+                            key={index}
+                          ></CastItem>
+                        );
+                      }
+                    )
+                  : ""
+                : Array(8)
+                    .fill(0)
+                    .map((item) => {
                       return (
-                        <CastItem
-                          character={item.character}
-                          original_name={item.original_name}
-                          profile_path={item.profile_path}
-                          key={index}
-                        ></CastItem>
+                        <ItemSkeleton
+                          additionalLine={true}
+                          imgheight={450}
+                          imgwidth={300}
+                        ></ItemSkeleton>
                       );
-                    }
-                  )
-                : Array.of(5).map((item) => {
-                    return (
-                      <div className="CastItem">
-                        <div className="Cast_Back"></div>
-                        <div className="Cast_Name">Name</div>
-                      </div>
-                    );
-                  })}
+                    })}
             </div>
           </div>
           <div className="Trailer"></div>
-          {State.FindedFilmOrSerial[0]?.seasons?.length > 0 ? (
-            <div className="Seasons">
+          {!State.isLoading ? (
+            State.FindedFilmOrSerial[0]?.seasons?.length > 0 ? (
+              <div>
+                <h2 className="Category">Seasons</h2>
+                <div className="Seasons">
+                  <div
+                    className="CastsBox"
+                    style={{
+                      overflowX:
+                        State.FindedFilmOrSerial[0]?.seasons?.length <= 6
+                          ? "hidden"
+                          : "scroll",
+                    }}
+                  >
+                    {State.FindedFilmOrSerial[0]?.seasons?.map(
+                      (item: {
+                        episode_count: number;
+                        name: string;
+                        id: number;
+                        poster_path: string;
+                      }) => {
+                        return (
+                          <div className="Season">
+                            <img
+                              loading="lazy"
+                              className="SeasonImg"
+                              src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                            ></img>
+                            <p className="SeasonName">{item.name}</p>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )
+          ) : (
+            <div>
               <h2 className="Category">Seasons</h2>
-              <div
-                className="CastsBox"
-                style={{
-                  overflowX:
-                    State.FindedFilmOrSerial[0]?.seasons?.length <= 6
-                      ? "hidden"
-                      : "scroll",
-                }}
-              >
-                {State.FindedFilmOrSerial[0]?.seasons?.map(
-                  (item: {
-                    episode_count: number;
-                    name: string;
-                    id: number;
-                    poster_path: string;
-                  }) => {
+              <div className="Seasons">
+                {Array(7)
+                  .fill(0)
+                  .map((item) => {
                     return (
-                      <div className="Season">
-                        <img
-                          loading="lazy"
-                          className="SeasonImg"
-                          src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                        ></img>
-                        <p className="SeasonName">{item.name}</p>
-                      </div>
+                      <ItemSkeleton
+                        additionalLine={false}
+                        imgheight={300}
+                        imgwidth={200}
+                      ></ItemSkeleton>
                     );
-                  }
-                )}
+                  })}
               </div>
             </div>
-          ) : (
-            ""
           )}
+
           <MoviesList
             CategoryName="Recomendations"
             RenderCategory={State.RecomendedMovies}

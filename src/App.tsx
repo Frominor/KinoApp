@@ -15,6 +15,7 @@ import { Serials } from "./pages/Serials/Serials";
 import { Films } from "./pages/Films/Films";
 import { Main } from "./pages/Main/Main";
 import { FilmOrSerial } from "./pages/FilmOrSerial/FilmOrSerial";
+import { SkeletonTheme } from "react-loading-skeleton";
 const Case1 = () => {
   return (
     <Routes>
@@ -37,9 +38,11 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <Header></Header>
-      <Case1></Case1>
-      <Footer></Footer>
+      <SkeletonTheme>
+        <Header></Header>
+        <Case1></Case1>
+        <Footer></Footer>
+      </SkeletonTheme>
     </div>
   );
 }
