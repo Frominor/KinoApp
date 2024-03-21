@@ -58,6 +58,23 @@ export const FindBasicFilmsAndSerialsCategories = createAsyncThunk(
     return res;
   }
 );
+export const GetMoreSerials = createAsyncThunk(
+  "Moives/GetMoreSerials",
+  async () => {
+    const res = await Promise.all([
+      axios.get(
+        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=2`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=3`
+      ),
+    ]);
+    return res;
+  }
+);
 const initialState: IState = {
   Films: [],
   TopDayFilms: [],
@@ -69,6 +86,8 @@ const initialState: IState = {
   Error: "",
   Casts: [],
   RecomendedMovies: [],
+  TopDaySerials: [],
+  PopularSerials: [],
   SearchedFilms: [],
 };
 const GetFilmsSlice = createSlice({
@@ -159,6 +178,19 @@ const GetFilmsSlice = createSlice({
       .addCase(FindBasicFilmsAndSerialsCategories.rejected, (state) => {
         state.Error = "Ошибка";
         state.isLoading = false;
+      })
+      .addCase(GetMoreSerials.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetMoreSerials.fulfilled, (state, action) => {
+        state.PopularSerials = action.payload[0].data.results;
+        for (let k of state.PopularSerials) {
+          k.media_type = "tv";
+        }
+        state.TopDaySerials = action.payload[1].data.results;
+        for (let k of state.TopDaySerials) {
+          k.media_type = "tv";
+        }
       });
   },
 });

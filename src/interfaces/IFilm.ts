@@ -15,6 +15,7 @@ export interface IState {
   TopDayFilms: IFilm[];
   FindedFilmOrSerial: {
     seasons: any[];
+
     original_name: string;
     name: string;
     overview: string;
@@ -23,6 +24,8 @@ export interface IState {
     genres: { id: number; name: string }[];
     backdrop_path: string[];
   }[];
+  TopDaySerials: IFilm[];
+  PopularSerials: IFilm[];
   Serials: IFilm[];
   RecomendedMovies: { results: IFilm[] }[];
   NowPlayingFilms: IFilm[];

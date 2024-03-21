@@ -17,7 +17,7 @@ const Case1 = () => {
     <Routes>
       <Route path="/" element={<Main></Main>}></Route>
       <Route path="/films" element={<Films></Films>}></Route>
-      <Route path="/serials" element={<Serials></Serials>}></Route>
+      <Route path="/tv" element={<Serials></Serials>}></Route>
       <Route path="/films/:id" element={<FilmOrSerial></FilmOrSerial>}></Route>
       <Route path="/serials/:id"></Route>
     </Routes>
