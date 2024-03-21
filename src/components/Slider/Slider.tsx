@@ -2,19 +2,15 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
 
-import { ReactComponent as Naaa } from "./play-circle-svgrepo-com.svg";
-import "swiper/css";
-import "swiper/css/navigation";
-import "./Slider.css";
 import { useAppDispatch, useTypedSelector } from "../../store";
 import { ModalWindow } from "../ModalWindow/ModalWindow";
 import { IFilm } from "../../interfaces/IFilm";
-import { NavLink } from "react-router-dom";
-
 import { WatchTrailer } from "../WatchTrailer/WatchTrailer";
-import { GetInfoAndFindRecomendedMovies } from "../../utils/GetInfoAndFindRecomendedMovies";
-import { SliderItem } from "./SliderItem/SliderItem";
 
+import { SliderItem } from "./SliderItem/SliderItem";
+import "./Slider.css";
+import "swiper/css";
+import "swiper/css/navigation";
 interface SliderProps {
   SlPerW: number;
   spaceB: number;
@@ -27,28 +23,8 @@ export const Slider: React.FC<SliderProps> = ({
   isTopDFilmSilder,
   RenderCategory = [],
 }) => {
-  const dispatch = useAppDispatch();
-  const State = useTypedSelector((state) => state.Films);
   const [ModalWindowOpen, SetModalWindowOpen] = React.useState<boolean>(false);
-  const [OnTheElement, SetOnTheElement] = React.useState<boolean>(false);
   const [YouTubeKey, SetKey] = React.useState<number>(0);
-  const [Id, SetID] = React.useState<number>(0);
-  function CheckOpacity(item: IFilm): number {
-    if (OnTheElement) {
-      if (Id == item.id) {
-        return 1;
-      }
-    }
-    return 0;
-  }
-  function SetDataToLocalStorage(item: IFilm) {
-    window.localStorage.removeItem("movieinfo");
-    window.localStorage.removeItem("media_type");
-    window.localStorage.setItem("media_type", item.media_type);
-    window.localStorage.setItem("movieinfo", `${item.id}`);
-    SetModalWindowOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
   if (isTopDFilmSilder) {
     return (
       <>

@@ -1,0 +1,19 @@
+.Nav {
+  display: flex;
+  align-items: center;
+  column-gap: 30px;
+}
+.Link > a {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  color: white;
+  font-weight: 200;
+}
+
+.Link > a.active {
+  font-size: 28px;
+  font-weight: bold;
+}
+.Link > a:hover {
+  font-weight: bold;
+}

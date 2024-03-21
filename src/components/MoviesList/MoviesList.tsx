@@ -1,7 +1,6 @@
 import React from "react";
 import { Slider } from "../Slider/Slider";
 import "./MoviesList.css";
-import { IFilm } from "../../interfaces/IFilm";
 type MoviesListProps = {
   CategoryName: string;
   RenderCategory: any[];

@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { addFilmIdAndMovieTypeToLocalStorage } from "../../../utils/addFilmIdAndMovieTypeToLocalStorage";
 import { IFilm } from "../../../interfaces/IFilm";
+import "./FindedFilmsAndSerials.css";
 interface FindedFilmsAndSerialsItemProps {
   item: IFilm;
   SetIsOpenFindedFilmBox: (arg: boolean) => void;
@@ -26,11 +27,10 @@ export const FindedFilmsAndSerialsItem: React.FC<
         addFilmIdAndMovieTypeToLocalStorage(
           item,
           SetIsOpenFindedFilmBox,
-          SetValue,
-          SearchFilmsByName,
-          dispatch
+          SetValue
         );
         GetInfoAndFindRecomendedMovies(item, dispatch);
+        SearchFilmsByName("");
       }}
       to={`/films/:${item.id}`}
       className="MoviesBoxItem"

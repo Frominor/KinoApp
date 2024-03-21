@@ -2,24 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IFilm, IState } from "../interfaces/IFilm";
 //ts-ignore
-export const GetPopularFilms = createAsyncThunk(
-  "Films/GetPopularFilms",
-  async () => {
-    const res = await axios.get(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&videos`
-    );
-    return res.data;
-  }
-);
-export const GetNowPlayingFilms = createAsyncThunk(
-  "Films/GetNowPlayingFilms",
-  async () => {
-    const res = await axios.get(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
-    );
-    return res.data;
-  }
-);
+
 export const SearchFilmsByName = createAsyncThunk(
   "Films/SearcheByName",
   async (Name: string) => {
@@ -29,19 +12,10 @@ export const SearchFilmsByName = createAsyncThunk(
     return res.data;
   }
 );
-export const FindTopRatedTv = createAsyncThunk(
-  "Serials/GetPopular",
-  async () => {
-    const res = await axios.get(
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
-    );
-    return res.data;
-  }
-);
+
 export const GetFullInfoIn = createAsyncThunk(
   "Person/GetFullInfo",
   async (MovieInfo: { MediaType: string; MovieId: number }) => {
-    console.log();
     const res = await axios.get(
       `https://api.themoviedb.org/3/${MovieInfo.MediaType}/${MovieInfo.MovieId}?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus`
     );
@@ -67,7 +41,23 @@ export const FindRecomendedMovies = createAsyncThunk(
     return await res.data;
   }
 );
-
+export const FindBasicFilmsAndSerialsCategories = createAsyncThunk(
+  "Movies/GetOtherCategories",
+  async () => {
+    const res = await Promise.all([
+      axios.get(
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&videos`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
+      ),
+    ]);
+    return res;
+  }
+);
 const initialState: IState = {
   Films: [],
   TopDayFilms: [],
@@ -94,40 +84,8 @@ const GetFilmsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(GetPopularFilms.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(GetPopularFilms.fulfilled, (state, action) => {
-        state.Films = action.payload.results;
-        for (let k of state.Films) {
-          k.media_type = "movie";
-        }
-        state.TopDayFilms = [
-          state.Films[0],
-          state.Films[1],
-          state.Films[2],
-          state.Films[3],
-        ];
-      })
-      .addCase(GetPopularFilms.rejected, (state, action) => {
-        state.Error = "Ошибка при загрузке фильмов";
-        state.isLoading = false;
-      })
-      .addCase(GetNowPlayingFilms.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(GetNowPlayingFilms.fulfilled, (state, action) => {
-        state.NowPlayingFilms = action.payload.results;
-        for (let k of state.NowPlayingFilms) {
-          k.media_type = "movie";
-        }
-        state.isLoading = false;
-      })
-      .addCase(GetNowPlayingFilms.rejected, (state, action) => {
-        state.Error = "Ошибка при загрузке фильмов";
-        state.isLoading = false;
-      })
-      .addCase(SearchFilmsByName.pending, (state, action) => {
+
+      .addCase(SearchFilmsByName.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(SearchFilmsByName.fulfilled, (state, action) => {
@@ -141,16 +99,7 @@ const GetFilmsSlice = createSlice({
         state.Error = "Ошибка";
         state.isLoading = false;
       })
-      .addCase(FindTopRatedTv.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(FindTopRatedTv.fulfilled, (state, action) => {
-        state.Serials = action.payload.results;
-        for (let k of state.Serials) {
-          k.media_type = "tv";
-        }
-        state.isLoading = false;
-      })
+
       .addCase(GetFullInfoIn.pending, (state) => {
         state.isLoading = true;
       })
@@ -175,11 +124,42 @@ const GetFilmsSlice = createSlice({
       .addCase(
         FindRecomendedMovies.fulfilled,
         (state, action: PayloadAction<{ results: any[] }>) => {
-          console.log(123);
+          console.log(action.payload);
           state.isLoading = false;
           state.RecomendedMovies = action.payload.results;
         }
-      );
+      )
+      .addCase(
+        FindBasicFilmsAndSerialsCategories.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.Films = action.payload[0].data.results;
+          for (let k of state.Films) {
+            k.media_type = "movie";
+          }
+          state.TopDayFilms = [
+            state.Films[0],
+            state.Films[1],
+            state.Films[2],
+            state.Films[3],
+          ];
+          state.Serials = action.payload[1].data.results;
+          for (let k of state.Serials) {
+            k.media_type = "tv";
+          }
+          state.NowPlayingFilms = action.payload[2].data.results;
+          for (let k of state.NowPlayingFilms) {
+            k.media_type = "movie";
+          }
+          state.isLoading = false;
+        }
+      )
+      .addCase(FindBasicFilmsAndSerialsCategories.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(FindBasicFilmsAndSerialsCategories.rejected, (state) => {
+        state.Error = "Ошибка";
+        state.isLoading = false;
+      });
   },
 });
 export const GetFilmsSliceReducer = GetFilmsSlice.reducer;

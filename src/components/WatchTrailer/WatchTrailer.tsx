@@ -1,6 +1,7 @@
 import React from "react";
 import { useTypedSelector } from "../../store";
 import { ReactComponent as Play } from "../../imgs/play-circle-svgrepo-com.svg";
+import "./WatchTrailer.css";
 interface WatchTrailerProps {
   overview: string;
   SetModalWindowOpen: (arg: boolean) => void;

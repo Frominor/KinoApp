@@ -2,47 +2,9 @@ header {
   background-color: #282841;
   padding: 15px;
 }
-.Nav {
-  display: flex;
-  align-items: center;
-  column-gap: 30px;
-}
-.Link > a {
-  font-family: "Roboto", sans-serif;
-  font-size: 24px;
-  color: white;
-  font-weight: 200;
-}
 
-.Link > a.active {
-  font-size: 28px;
-  font-weight: bold;
-}
-.Link > a:hover {
-  font-weight: bold;
-}
 .HeaderBox {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-.SearchFilm {
-  width: 30%;
-  position: relative;
-}
-.InputBox {
-  color: white;
-  position: relative;
-}
-input {
-  border-bottom: 1px solid #454568;
-  padding: 5px;
-  width: 100%;
-  font-family: "Roboto", sans-serif;
-  padding-left: 0px;
-}
-.lupa {
-  fill: white;
-  position: absolute;
-  right: 0;
 }

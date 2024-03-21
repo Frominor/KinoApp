@@ -1,0 +1,26 @@
+.MoviesBoxItem {
+  display: flex;
+  column-gap: 10px;
+  align-items: start;
+  cursor: pointer;
+  justify-content: start;
+  padding: 15px;
+}
+.FindedMovieImg {
+  height: 100px;
+  max-width: 66px;
+}
+.SearchedItemTitle {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  color: white;
+}
+
+.SearchedItemOverview {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  color: white;
+}
+.SearcheItemTitleAndOverviewBox {
+  white-space: wrap;
+}

@@ -1,0 +1,14 @@
+.CastsBox {
+  display: flex;
+  column-gap: 30px;
+}
+.CastsBox::-webkit-scrollbar {
+  background-color: #323056;
+}
+.CastsBox::-webkit-scrollbar-thumb {
+  width: 7px;
+  background-color: #323056;
+}
+.CastsBox::-webkit-scrollbar-track {
+  background-color: #1e1e31;
+}

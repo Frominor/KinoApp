@@ -1,4 +1,5 @@
 import React from "react";
+import "./CastItem.css";
 interface CastItemProps {
   character: string;
   original_name: string;

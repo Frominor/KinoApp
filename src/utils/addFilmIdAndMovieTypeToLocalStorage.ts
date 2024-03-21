@@ -2,11 +2,11 @@ import { IFilm } from "../interfaces/IFilm";
 
 export function addFilmIdAndMovieTypeToLocalStorage(
   item: IFilm,
-  SetIsOpenFindedFilmBox: (arg: boolean) => void,
-  SearchFilmsByName: (arg: string) => any,
-  dispatch: (arg: (str: string) => void) => void,
+  SetIsOpenFindedFilmBox: (arg: any) => void,
+
   SetValue?: (arg: string) => void
 ) {
+  console.log(item);
   window.localStorage.removeItem("movieinfo");
   window.localStorage.removeItem("media_type");
   window.localStorage.setItem("media_type", item.media_type);
@@ -15,6 +15,4 @@ export function addFilmIdAndMovieTypeToLocalStorage(
   if (SetValue) {
     SetValue("");
   }
-
-  dispatch(SearchFilmsByName(""));
 }

@@ -3,12 +3,8 @@ import "./styles/Reset.css";
 import "./App.css";
 import { Header } from "./components/Header/Header";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useTypedSelector } from "./store";
-import {
-  FindTopRatedTv,
-  GetNowPlayingFilms,
-  GetPopularFilms,
-} from "./store/FilmsSlice";
+import { useAppDispatch } from "./store";
+import { FindBasicFilmsAndSerialsCategories } from "./store/FilmsSlice";
 import { Footer } from "./components/Footer/Footer";
 import { Route, Routes } from "react-router-dom";
 import { Serials } from "./pages/Serials/Serials";
@@ -31,9 +27,7 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    dispatch(GetPopularFilms());
-    dispatch(GetNowPlayingFilms());
-    dispatch(FindTopRatedTv());
+    dispatch(FindBasicFilmsAndSerialsCategories());
     navigate("/");
   }, []);
   return (

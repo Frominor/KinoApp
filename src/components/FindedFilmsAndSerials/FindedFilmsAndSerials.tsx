@@ -1,9 +1,10 @@
 import React from "react";
 import "./FindedFilmsAndSerials.css";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useTypedSelector } from "../../store";
 import { SearchFilmsByName } from "../../store/FilmsSlice";
 import { GetInfoAndFindRecomendedMovies } from "../../utils/GetInfoAndFindRecomendedMovies";
 import { FindedFilmsAndSerialsItem } from "./FindedFilmsAndSerials/FindedFilmsAndSerialsItem";
+import { ItemSkeleton } from "../ItemSkeleton/ItemSkeleton";
 
 type FindedFilmsAndSerialsProps = {
   SearchedFilms: {}[];
@@ -17,6 +18,7 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
   SetIsOpenFindedFilmBox,
   SetValue,
 }) => {
+  const State = useTypedSelector((state) => state.Films);
   const dispatch = useAppDispatch();
 
   return (
@@ -28,19 +30,37 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
       }}
     >
       <div className="MoviesBox">
-        {SearchedFilms &&
-          SearchedFilms.map((item: any, index: number) => {
-            return (
-              <FindedFilmsAndSerialsItem
-                GetInfoAndFindRecomendedMovies={GetInfoAndFindRecomendedMovies}
-                SearchFilmsByName={SearchFilmsByName}
-                SetIsOpenFindedFilmBox={SetIsOpenFindedFilmBox}
-                SetValue={SetValue}
-                dispatch={dispatch}
-                item={item}
-              ></FindedFilmsAndSerialsItem>
-            );
-          })}
+        {!State.isLoading
+          ? SearchedFilms.map((item: any, index: number) => {
+              return (
+                <FindedFilmsAndSerialsItem
+                  GetInfoAndFindRecomendedMovies={
+                    GetInfoAndFindRecomendedMovies
+                  }
+                  SearchFilmsByName={SearchFilmsByName}
+                  SetIsOpenFindedFilmBox={SetIsOpenFindedFilmBox}
+                  SetValue={SetValue}
+                  dispatch={dispatch}
+                  item={item}
+                ></FindedFilmsAndSerialsItem>
+              );
+            })
+          : Array(8)
+              .fill(0)
+              .map((item) => {
+                return (
+                  <ItemSkeleton
+                    skeletonimg={true}
+                    mainline={true}
+                    LineDirection="row"
+                    imgheight={100}
+                    imgwidth={66}
+                    additionalLine={false}
+                    mainlinewidth={95 + "%"}
+                    mainlineheight={100}
+                  ></ItemSkeleton>
+                );
+              })}
       </div>
     </div>
   );

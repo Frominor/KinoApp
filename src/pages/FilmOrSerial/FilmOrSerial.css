@@ -7,78 +7,19 @@
   width: 100%;
 }
 
-.ImageAndOverview_Image {
-  width: 30%;
-  height: 400px;
-}
-.Ganre {
-  background: #433f73;
-  font-family: "Roboto", sans-serif;
-  display: inline-block;
-  padding: 10px;
-  font-size: 17px;
-  border-radius: 20px;
-  color: white;
-}
-.ImageAndOverview {
-  display: flex;
-
-  column-gap: 20px;
-}
-.TitleAndOverview {
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  row-gap: 15px;
-  padding-top: 9%;
-}
-.NameOfTheMovie {
-  font-family: "Roboto", sans-serif;
-
-  font-size: 24px;
-  color: white;
-}
-.OverviewOfTheMovie {
-  font-family: "Roboto", sans-serif;
-  font-size: 18px;
-  width: 90%;
-  color: white;
-}
-
 .Cast_Back {
   width: 200px;
   height: 300px;
   background-color: #332f55;
 }
-.CastsBox {
-  display: flex;
-  column-gap: 30px;
-}
-.CastsBox::-webkit-scrollbar {
-  background-color: #323056;
-}
-.CastsBox::-webkit-scrollbar-thumb {
-  width: 7px;
-  background-color: #323056;
-}
-.CastsBox::-webkit-scrollbar-track {
-  background-color: #1e1e31;
-}
+
 .Category {
   font-family: "Roboto", sans-serif;
   font-size: 24px;
   color: white;
   padding: 10px;
 }
-.Cast_Name {
-  padding-top: 10px;
-}
-.Cast_Name > p {
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-  padding: 2px;
-  color: white;
-}
+
 .SeasonImg {
   height: 301px;
   max-width: max-content !important;
