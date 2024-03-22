@@ -9,7 +9,6 @@ interface FindedFilmsAndSerialsItemProps {
   SetValue: (arg: string) => void;
   dispatch: (arg?: any) => any;
   SearchFilmsByName: (arg: any) => void;
-  GetInfoAndFindRecomendedMovies: (item: IFilm, dispatch: () => void) => void;
 }
 export const FindedFilmsAndSerialsItem: React.FC<
   FindedFilmsAndSerialsItemProps
@@ -19,7 +18,6 @@ export const FindedFilmsAndSerialsItem: React.FC<
   SetValue,
   dispatch,
   SearchFilmsByName,
-  GetInfoAndFindRecomendedMovies,
 }) => {
   return (
     <NavLink
@@ -29,7 +27,6 @@ export const FindedFilmsAndSerialsItem: React.FC<
           SetIsOpenFindedFilmBox,
           SetValue
         );
-        GetInfoAndFindRecomendedMovies(item, dispatch);
         SearchFilmsByName("");
       }}
       to={`/films/:${item.id}`}

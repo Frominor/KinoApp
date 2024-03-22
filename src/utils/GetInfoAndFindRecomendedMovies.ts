@@ -6,7 +6,7 @@ import {
 } from "../store/FilmsSlice";
 
 export function GetInfoAndFindRecomendedMovies(
-  item: IFilm,
+  item: IFilm | { id: number; media_type: string },
   dispatch: (arg: any) => void
 ): void {
   dispatch(

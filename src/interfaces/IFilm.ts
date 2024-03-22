@@ -15,7 +15,8 @@ export interface IState {
   TopDayFilms: IFilm[];
   FindedFilmOrSerial: {
     seasons: any[];
-
+    id: number;
+    key?: number;
     original_name: string;
     name: string;
     overview: string;

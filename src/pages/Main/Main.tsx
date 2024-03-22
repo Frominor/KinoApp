@@ -6,7 +6,6 @@ import "./Main.css";
 
 export const Main: React.FC = React.memo(({}) => {
   const State = useTypedSelector((state) => state.Films);
-  console.log(State);
   return (
     <main>
       <div className="container">

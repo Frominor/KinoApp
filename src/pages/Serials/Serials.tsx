@@ -8,7 +8,7 @@ export const Serials: React.FC = ({}) => {
   const State = useTypedSelector((state) => state.Films);
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    dispatch(GetMoreSerials());
+    dispatch(GetMoreSerials("tv"));
   }, []);
   return (
     <div className="Serials">

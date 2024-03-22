@@ -21,7 +21,7 @@ export const Nav: React.FC = ({}) => {
           onClick={() => {
             SetActive("/movies");
           }}
-          to={"/movies"}
+          to={"/films"}
           className={Active == "/movies" ? "active" : "notactive"}
         >
           Films

@@ -12,6 +12,7 @@ import { Films } from "./pages/Films/Films";
 import { Main } from "./pages/Main/Main";
 import { FilmOrSerial } from "./pages/FilmOrSerial/FilmOrSerial";
 import { SkeletonTheme } from "react-loading-skeleton";
+
 const Case1 = () => {
   return (
     <Routes>
@@ -23,12 +24,10 @@ const Case1 = () => {
     </Routes>
   );
 };
-function App() {
-  const navigate = useNavigate();
+const App: React.FC = () => {
   const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(FindBasicFilmsAndSerialsCategories());
-    navigate("/");
   }, []);
   return (
     <div className="App">
@@ -39,6 +38,6 @@ function App() {
       </SkeletonTheme>
     </div>
   );
-}
+};
 
 export default App;

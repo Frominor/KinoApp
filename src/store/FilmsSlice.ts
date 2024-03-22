@@ -60,19 +60,28 @@ export const FindBasicFilmsAndSerialsCategories = createAsyncThunk(
 );
 export const GetMoreSerials = createAsyncThunk(
   "Moives/GetMoreSerials",
-  async () => {
+  async (MovieOrTv: string) => {
     const res = await Promise.all([
       axios.get(
-        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
+        `https://api.themoviedb.org/3/${MovieOrTv}/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=1`
       ),
       axios.get(
-        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=2`
+        `https://api.themoviedb.org/3/${MovieOrTv}/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=2`
       ),
       axios.get(
-        `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=3`
+        `https://api.themoviedb.org/3/${MovieOrTv}/top_rated?api_key=${process.env.REACT_APP_API_FILMS_KEY}&language=ru-Rus&page=3`
       ),
     ]);
-    return res;
+    return { res, media_type: MovieOrTv };
+  }
+);
+export const GetKeyForFindedFilmOrSerial = createAsyncThunk(
+  "Moive/GetKey",
+  async (Item: { FilmID: number; media_type: string }) => {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/${Item.media_type}/${Item.FilmID}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
+    );
+    return await res.data;
   }
 );
 const initialState: IState = {
@@ -183,14 +192,32 @@ const GetFilmsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(GetMoreSerials.fulfilled, (state, action) => {
-        state.PopularSerials = action.payload[0].data.results;
+        state.PopularSerials = action.payload.res[0].data.results;
         for (let k of state.PopularSerials) {
-          k.media_type = "tv";
+          k.media_type = action.payload.media_type;
         }
-        state.TopDaySerials = action.payload[1].data.results;
+        state.TopDaySerials = action.payload.res[1].data.results;
         for (let k of state.TopDaySerials) {
-          k.media_type = "tv";
+          k.media_type = action.payload.media_type;
         }
+      })
+      .addCase(GetKeyForFindedFilmOrSerial.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetKeyForFindedFilmOrSerial.fulfilled, (state, action) => {
+        state.isLoading = false;
+        for (let k of action.payload.results) {
+          if (k.name == "Official Trailer") {
+            state.FindedFilmOrSerial[0].key = k.key;
+          }
+          if (k.name == "Series Trailer") {
+            state.FindedFilmOrSerial[0].key = k.key;
+          }
+        }
+      })
+      .addCase(GetKeyForFindedFilmOrSerial.rejected, (state) => {
+        state.isLoading = false;
+        state.Error = "Ошибка";
       });
   },
 });

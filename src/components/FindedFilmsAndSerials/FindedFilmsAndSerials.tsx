@@ -2,7 +2,6 @@ import React from "react";
 import "./FindedFilmsAndSerials.css";
 import { useAppDispatch, useTypedSelector } from "../../store";
 import { SearchFilmsByName } from "../../store/FilmsSlice";
-import { GetInfoAndFindRecomendedMovies } from "../../utils/GetInfoAndFindRecomendedMovies";
 import { FindedFilmsAndSerialsItem } from "./FindedFilmsAndSerials/FindedFilmsAndSerialsItem";
 import { ItemSkeleton } from "../ItemSkeleton/ItemSkeleton";
 
@@ -34,9 +33,6 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
           ? SearchedFilms.map((item: any, index: number) => {
               return (
                 <FindedFilmsAndSerialsItem
-                  GetInfoAndFindRecomendedMovies={
-                    GetInfoAndFindRecomendedMovies
-                  }
                   SearchFilmsByName={SearchFilmsByName}
                   SetIsOpenFindedFilmBox={SetIsOpenFindedFilmBox}
                   SetValue={SetValue}
