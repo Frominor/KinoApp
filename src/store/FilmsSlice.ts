@@ -84,6 +84,26 @@ export const GetKeyForFindedFilmOrSerial = createAsyncThunk(
     return await res.data;
   }
 );
+export const GetKeyForTopDayFilmss = createAsyncThunk(
+  "Moives/GetKeys",
+  async (Obj: any) => {
+    const res = await Promise.all([
+      axios.get(
+        `https://api.themoviedb.org/3/movie/${Obj.one}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/movie/${Obj.two}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/movie/${Obj.three}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/movie/${Obj.four}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
+      ),
+    ]);
+    return res;
+  }
+);
 const initialState: IState = {
   Films: [],
   TopDayFilms: [],
@@ -216,6 +236,24 @@ const GetFilmsSlice = createSlice({
       .addCase(GetKeyForFindedFilmOrSerial.rejected, (state) => {
         state.isLoading = false;
         state.Error = "Ошибка";
+      })
+      .addCase(GetKeyForTopDayFilmss.fulfilled, (state, action: any) => {
+        console.log(action.payload);
+        let arr = [];
+        for (let k of action.payload) {
+          for (let z of k.data.results) {
+            if (z.name === "Official Trailer") {
+              arr.push(z);
+            }
+          }
+        }
+        state.YouTubeS = arr;
+        for (let i = 0; i < arr.length; i++) {
+          state.TopDayFilms[i].key = arr[i].key;
+        }
+      })
+      .addCase(GetKeyForTopDayFilmss.rejected, (state, action) => {
+        console.log(action);
       });
   },
 });

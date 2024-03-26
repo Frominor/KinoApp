@@ -7,3 +7,27 @@
   padding: 2px;
   color: white;
 }
+.CastImg {
+  border-radius: 20px;
+  min-width: 300px;
+}
+@media (max-width: 1460px) {
+  .CastsBox {
+    column-gap: 10px !important;
+  }
+  .CastImg {
+    min-width: 200px !important;
+    margin: 0px 5px 0px 5px;
+  }
+  .MoviesList {
+    margin: 0px 5px 0px 5px;
+  }
+  .ImageAndOverview {
+    margin: 0px 5px 0px 5px;
+  }
+}
+@media (max-width: 740px) {
+  .OverviewOfTheMovie {
+    font-size: 14px !important;
+  }
+}

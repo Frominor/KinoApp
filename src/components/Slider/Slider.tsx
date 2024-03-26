@@ -98,7 +98,7 @@ export const Slider: React.FC<SliderProps> = ({
     return (
       <>
         <Swiper
-          className="Slider"
+          className="Testrdsf"
           modules={[Navigation, A11y]}
           spaceBetween={spaceB}
           slidesPerView={SlPerW}
@@ -107,7 +107,7 @@ export const Slider: React.FC<SliderProps> = ({
         >
           {RenderCategory.map((item: IFilm, index) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide style={{ width: 245 + "px" }}>
                 {" "}
                 <SliderItem
                   SetModalWindowOpen={SetModalWindowOpen}

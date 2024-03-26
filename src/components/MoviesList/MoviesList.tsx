@@ -17,7 +17,7 @@ export const MoviesList: React.FC<MoviesListProps> = ({
       <Slider
         isTopDFilmSilder={false}
         SlPerW={6}
-        spaceB={0}
+        spaceB={5}
         RenderCategory={RenderCategory}
       ></Slider>
     </div>

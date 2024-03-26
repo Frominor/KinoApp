@@ -15,10 +15,6 @@ export const CastItem: React.FC<CastItemProps> = ({
       <img
         loading="lazy"
         className="CastImg"
-        style={{
-          borderRadius: 20 + "px",
-          minWidth: 300 + "px",
-        }}
         src={`https://image.tmdb.org/t/p/w500/${profile_path}`}
       />
       <div className="Cast_Name">

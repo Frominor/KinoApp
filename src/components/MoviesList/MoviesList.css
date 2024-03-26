@@ -5,3 +5,14 @@
   font-weight: 500;
   padding: 10px;
 }
+@media (max-width: 650px) {
+  .Testrdsf > .swiper-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 1000px) {
+  .ImgForMovList {
+    height: 270px !important;
+  }
+}

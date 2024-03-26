@@ -1,7 +1,10 @@
 import React from "react";
 import axios from "axios";
 import { useAppDispatch, useTypedSelector } from "../../store";
-import { getKeyForTopDayFilms } from "../../store/FilmsSlice";
+import {
+  GetKeyForTopDayFilmss,
+  getKeyForTopDayFilms,
+} from "../../store/FilmsSlice";
 
 import { Nav } from "../Nav/Nav";
 import { SearchFilm } from "../SearchFilm/SearchFilm";
@@ -35,7 +38,6 @@ export const Header: React.FC = ({}) => {
       }
     }
   }
-  console.log(window.innerWidth);
   React.useEffect(() => {
     document.addEventListener("onkeydown", handleEscapeKey);
     return () => {
@@ -43,32 +45,15 @@ export const Header: React.FC = ({}) => {
     };
   }, []);
   React.useEffect(() => {
-    if (State.Films.length > 0) {
-      const arr: any[] = [];
-      Promise.all([
-        axios.get(
-          `https://api.themoviedb.org/3/movie/${State.TopDayFilms[0].id}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
-        ),
-        axios.get(
-          `https://api.themoviedb.org/3/movie/${State.TopDayFilms[1].id}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
-        ),
-        axios.get(
-          `https://api.themoviedb.org/3/movie/${State.TopDayFilms[2].id}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
-        ),
-        axios.get(
-          `https://api.themoviedb.org/3/movie/${State.TopDayFilms[3].id}/videos?api_key=9e41ad5e308357275d9bd37e24bc20bc`
-        ),
-      ]).then((res) => {
-        for (let k of res) {
-          for (let z of k.data.results) {
-            if (z.name === "Official Trailer") {
-              arr.push(z);
-            }
-          }
-        }
-
-        dispacth(getKeyForTopDayFilms(arr));
-      });
+    if (State.TopDayFilms.length > 0) {
+      dispacth(
+        GetKeyForTopDayFilmss({
+          one: State.TopDayFilms[0].id,
+          two: State.TopDayFilms[1].id,
+          three: State.TopDayFilms[2].id,
+          four: State.TopDayFilms[3].id,
+        })
+      );
     }
   }, [State.Films]);
 
