@@ -35,6 +35,7 @@ export const Header: React.FC = ({}) => {
       }
     }
   }
+  console.log(window.innerWidth);
   React.useEffect(() => {
     document.addEventListener("onkeydown", handleEscapeKey);
     return () => {

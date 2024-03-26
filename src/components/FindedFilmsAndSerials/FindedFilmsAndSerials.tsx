@@ -1,10 +1,9 @@
 import React from "react";
-import "./FindedFilmsAndSerials.css";
 import { useAppDispatch, useTypedSelector } from "../../store";
 import { SearchFilmsByName } from "../../store/FilmsSlice";
 import { FindedFilmsAndSerialsItem } from "./FindedFilmsAndSerials/FindedFilmsAndSerialsItem";
 import { ItemSkeleton } from "../ItemSkeleton/ItemSkeleton";
-
+import "./FindedFilmsAndSerials.css";
 type FindedFilmsAndSerialsProps = {
   SearchedFilms: {}[];
   IsOpenFindedFilmBox: boolean;
@@ -19,7 +18,6 @@ export const FindedFilmsAndSerials: React.FC<FindedFilmsAndSerialsProps> = ({
 }) => {
   const State = useTypedSelector((state) => state.Films);
   const dispatch = useAppDispatch();
-
   return (
     <div
       className="FindedFilmsAndSerials"

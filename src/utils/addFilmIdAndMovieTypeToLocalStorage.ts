@@ -3,7 +3,6 @@ import { IFilm } from "../interfaces/IFilm";
 export function addFilmIdAndMovieTypeToLocalStorage(
   item: IFilm,
   SetIsOpenFindedFilmBox: (arg: any) => void,
-
   SetValue?: (arg: string) => void
 ) {
   console.log(item);

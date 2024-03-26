@@ -27,7 +27,8 @@ export const FindedFilmsAndSerialsItem: React.FC<
           SetIsOpenFindedFilmBox,
           SetValue
         );
-        SearchFilmsByName("");
+        dispatch(SearchFilmsByName(""));
+        SetValue("");
       }}
       to={`/films/:${item.id}`}
       className="MoviesBoxItem"

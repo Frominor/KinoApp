@@ -61,7 +61,7 @@ export const SliderItem: React.FC<SliderItemProps> = ({
         className="FilmBox"
         style={{
           display: "flex",
-          alignItems: "center",
+
           justifyContent: "center",
           flexDirection: "column",
         }}

@@ -43,7 +43,6 @@ export const SearchFilm: React.FC<SearchFilmProps> = ({
           onChange={(e) => {
             SetValue(e.target.value);
             FindFilmByName(e);
-            SetIsOpenFindedFilmBox(true);
           }}
           id="searchinput"
         ></input>

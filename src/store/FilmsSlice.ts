@@ -112,7 +112,6 @@ const GetFilmsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-
       .addCase(SearchFilmsByName.pending, (state) => {
         state.isLoading = true;
       })
@@ -152,7 +151,6 @@ const GetFilmsSlice = createSlice({
       .addCase(
         FindRecomendedMovies.fulfilled,
         (state, action: PayloadAction<{ results: any[] }>) => {
-          console.log(action.payload);
           state.isLoading = false;
           state.RecomendedMovies = action.payload.results;
         }

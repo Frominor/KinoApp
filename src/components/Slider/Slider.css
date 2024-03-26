@@ -17,11 +17,8 @@
 }
 .Slider {
   position: relative;
+  column-gap: 10px;
 }
 
-.ImgForMovList {
-  height: 300px;
-}
-.ImgForMovList:hover {
-  filter: brightness(60%);
+.swiper-wrapper {
 }
